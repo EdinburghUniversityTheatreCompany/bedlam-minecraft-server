@@ -1,0 +1,26 @@
+name: bedlam-mc
+
+services:
+  minecraft:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        EULA: "${EULA}"
+    volumes:
+      - type: volume
+        source: minecraft-data
+        target: /data
+    ports:
+      - "25565:25565"
+    secrets:
+      - github_token
+    stdin_open: true
+    tty: true
+volumes:
+  minecraft-data:
+    name: minecraft-data
+    external: true
+secrets:
+  github_token:
+    environment: "GITHUB_TOKEN"

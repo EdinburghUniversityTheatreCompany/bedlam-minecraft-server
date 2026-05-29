@@ -1,0 +1,53 @@
+From f91443d566ee2978e02bd1091adc5b07a6da15c7 Mon Sep 17 00:00:00 2001
+From: soqb <cb.setho@gmail.com>
+Date: Fri, 29 May 2026 16:27:34 +0100
+Subject: [PATCH] fix: rustls cryptoprovider
+
+---
+ Cargo.lock  | 1 +
+ Cargo.toml  | 1 +
+ src/main.rs | 4 ++++
+ 3 files changed, 6 insertions(+)
+
+diff --git a/Cargo.lock b/Cargo.lock
+index eed1e2f..abdd641 100644
+--- a/Cargo.lock
++++ b/Cargo.lock
+@@ -735,6 +735,7 @@ dependencies = [
+  "rand 0.10.1",
+  "reqwest 0.12.28",
+  "rfd",
++ "rustls",
+  "serde_json",
+  "size",
+  "tokio",
+diff --git a/Cargo.toml b/Cargo.toml
+index fa45166..1f09fc6 100644
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -74,6 +74,7 @@ inquire = "0.9"
+ libium = { path = "./libium" }
+ anyhow = "1.0"
+ size = "0.5"
++rustls = "0.23.40"
+ 
+ [dev-dependencies]
+ rand = "0.10"
+diff --git a/src/main.rs b/src/main.rs
+index 763fe16..632b83c 100644
+--- a/src/main.rs
++++ b/src/main.rs
+@@ -80,6 +80,10 @@ fn main() -> ExitCode {
+         colored::control::set_virtual_terminal(true).unwrap();
+     }
+ 
++    {
++        let _ = rustls::crypto::aws_lc_rs::default_provider().install_default();
++    }
++
+     let cli = Ferium::parse();
+ 
+     let mut builder = tokio::runtime::Builder::new_multi_thread();
+-- 
+2.53.0
+
