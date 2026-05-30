@@ -2,6 +2,7 @@ name: bedlam-mc
 
 services:
   minecraft:
+    image: bedlamtheatre/minecraft-server
     build:
       context: .
       dockerfile: Dockerfile

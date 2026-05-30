@@ -30,6 +30,10 @@ RUN set -eux; \
   cd ..; \
   rm -r ferium; \
   rm -r /root/.cargo;
+RUN set -eux; \
+	rm -r /root/.rustup; \
+	apt-get purge rustup git gcc -y; \
+	apt-get autoremove -y
 
 RUN mkdir /opt/app/
 WORKDIR /opt/app
