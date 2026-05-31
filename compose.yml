@@ -3,9 +3,6 @@ name: bedlam-minecraft-server
 services:
   minecraft:
     image: bedlamtheatre/minecraft-server
-    build:
-      context: .
-      dockerfile: Dockerfile
     volumes:
       - type: volume
         source: minecraft-data
@@ -13,7 +10,7 @@ services:
     ports:
       - "25565:25565" # Main
       - "25575:25575" # RCON
-      - "19132:19132" # Geyser
+      - "19132:19132/udp" # Geyser
     environment:
       - "GITHUB_TOKEN=${GITHUB_TOKEN}"
       - "EULA=${EULA}"

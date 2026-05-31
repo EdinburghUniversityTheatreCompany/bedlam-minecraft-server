@@ -4,7 +4,6 @@ ferium profile rm default 2>/dev/null
 ferium profile create -n default -m fabric -v $(cat mc-version.txt) -o $(realpath mods)
 
 while IFS="" read -r modid || [ -n "$modid" ]; do
-    echo $modid
     if case $modid in "#"*) false;; *) true;; esac; then
         ferium add $modid
     fi
