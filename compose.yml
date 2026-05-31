@@ -18,16 +18,19 @@ services:
     tty: true
     pull_policy: never
     restart: unless-stopped
-  data-server:
+  sftp-server:
     image: rclone/rclone
-    command: serve ftp /data --addr :80 --user=${RCLONE_USER:-anonymous} --pass=${RCLONE_PASS-""}
+    command: serve sftp /data --addr :25522 --user=${SFTP_USER} --pass=${SFTP_PASS}
     volumes:
       - type: volume
         source: minecraft-data
         target: /data
     ports:
-      - "9001:80"
+      - "25522:25522"
     restart: unless-stopped
+    environment:
+      - "SFTP_USER=${SFTP_USER:-anonymous}"
+      - "SFTP_PASS=${SFTP_PASS:-\"\"}"
 volumes:
   minecraft-data:
     name: minecraft-data
