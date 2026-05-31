@@ -1,6 +1,7 @@
 #!/usr/bin/sh
 
-ferium profile create -n default -m fabric -v ${MC_V} -o $(realpath mods)
+ferium profile rm default 2>/dev/null
+ferium profile create -n default -m fabric -v $(cat mc-version.txt) -o $(realpath mods)
 
 while IFS="" read -r modid || [ -n "$modid" ]; do
     echo $modid

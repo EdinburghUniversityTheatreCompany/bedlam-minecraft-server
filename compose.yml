@@ -1,4 +1,4 @@
-name: bedlam-mc
+name: bedlam-minecraft-server
 
 services:
   minecraft:
@@ -6,22 +6,32 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-      args:
-        EULA: "${EULA}"
     volumes:
       - type: volume
         source: minecraft-data
         target: /data
     ports:
-      - "25565:25565"
-    secrets:
-      - github_token
+      - "25565:25565" # Main
+      - "25575:25575" # RCON
+      - "19132:19132" # Geyser
+    environment:
+      - "GITHUB_TOKEN=${GITHUB_TOKEN}"
+      - "EULA=${EULA}"
     stdin_open: true
     tty: true
+    pull_policy: never
+    restart: unless-stopped
+  data-server:
+    image: rclone/rclone
+    command: serve http /data --addr :80 --user=${RCLONE_USER:-""} --pass=${RCLONE_PASS-""}
+    volumes:
+      - type: volume
+        source: minecraft-data
+        target: /data
+    ports:
+      - "9001:80"
+    restart: unless-stopped
 volumes:
   minecraft-data:
     name: minecraft-data
     external: true
-secrets:
-  github_token:
-    environment: "GITHUB_TOKEN"
