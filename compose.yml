@@ -20,7 +20,7 @@ services:
     restart: unless-stopped
   data-server:
     image: rclone/rclone
-    command: serve http /data --addr :80 --user=${RCLONE_USER:-""} --pass=${RCLONE_PASS-""}
+    command: serve ftp /data --addr :80 --user=${RCLONE_USER:-anonymous} --pass=${RCLONE_PASS-""}
     volumes:
       - type: volume
         source: minecraft-data
