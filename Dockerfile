@@ -30,18 +30,19 @@ RUN mkdir /opt/app/
 WORKDIR /opt/app
 ARG MC_V="26.1.2"
 ARG FABRIC_V="0.19.2"
-ARG INSTALLER_V="1.1.1"
-ADD https://meta.fabricmc.net/v2/versions/loader/${MC_V}/${FABRIC_V}/${INSTALLER_V}/server/jar fabric-installer.jar
+ARG FABRIC_INSTALLER_V="1.1.1"
+ADD https://maven.fabricmc.net/net/fabricmc/fabric-installer/${FABRIC_INSTALLER_V}/fabric-installer-${FABRIC_INSTALLER_V}.jar \
+  fabric-installer.jar
 RUN mkdir minecraft
+RUN java -jar fabric-installer.jar server -dir minecraft -downloadMinecraft -mcversion "${MC_V}" -loader "${FABRIC_V}"
 WORKDIR minecraft
-RUN java -jar ../fabric-installer.jar nogui server -dir . -downloadMinecraft
 
 COPY --chmod=755 scripts/build ../scripts/build
 RUN ../scripts/build/build.sh
 
-ENV MC_SERVER_JAR=".fabric/server/${MC_V}-server.jar"
+ENV MC_SERVER_JAR="server.jar"
 RUN echo "serverJar=${MC_SERVER_JAR}" > fabric-server-launcher.properties
-ENV FABRIC_SERVER_JAR=".fabric/server/fabric-loader-server-${FABRIC_V}-minecraft-${MC_V}.jar"
+ENV FABRIC_SERVER_JAR="fabric-loader-server.jar"
 
 EXPOSE 25565
 VOLUME /data
