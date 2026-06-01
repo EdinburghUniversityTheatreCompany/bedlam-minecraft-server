@@ -42,7 +42,7 @@ RUN ../scripts/build/build.sh
 
 ENV MC_SERVER_JAR="server.jar"
 RUN echo "serverJar=${MC_SERVER_JAR}" > fabric-server-launcher.properties
-ENV FABRIC_SERVER_JAR="fabric-loader-server.jar"
+ENV FABRIC_SERVER_JAR="fabric-server-launch.jar"
 
 EXPOSE 25565
 VOLUME /data

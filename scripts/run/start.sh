@@ -10,6 +10,7 @@ for dir in $DIRS; do
 done
 
 mkdir /data/usermods 2>/dev/null
+mkdir mods 2>/dev/null
 ln -s /data/usermods mods/user
 
 for file in $FILES; do
