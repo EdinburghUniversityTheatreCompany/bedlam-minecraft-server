@@ -19,18 +19,15 @@ services:
     pull_policy: never
     restart: unless-stopped
   sftp-server:
-    image: rclone/rclone
-    command: serve sftp /data --addr :25522 --user=${SFTP_USER} --pass=${SFTP_PASS}
+    image: atmoz/sftp:alpine
+    command: "${SFTP_USER:-anonymous}:${SFTP_PASS:-}:::data"
     volumes:
       - type: volume
         source: minecraft-data
-        target: /data
+        target: "/home/${SFTP_USER}/data"
     ports:
-      - "25522:25522"
+      - "25522:22"
     restart: unless-stopped
-    environment:
-      - "SFTP_USER=${SFTP_USER:-anonymous}"
-      - "SFTP_PASS=${SFTP_PASS:-\"\"}"
 volumes:
   minecraft-data:
     name: minecraft-data
