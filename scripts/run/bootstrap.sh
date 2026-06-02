@@ -1,4 +1,4 @@
 #!/usr/bin/sh
 
-chown -R minecraft /data
+chown -R minecraft:minecraft /data
 gosu minecraft:minecraft $1
