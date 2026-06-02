@@ -1,7 +1,8 @@
 #!/usr/bin/sh
 
-groupadd minecraft
-useradd -rm -g minecraft minecraft
+groupadd minecraft -g 966
+useradd -rm -g minecraft minecraft -u 1966
+chown -R minecraft /data/minecraft
 chown -R minecraft /opt/app/minecraft
 
 echo "${MC_V}" > mc-version.txt

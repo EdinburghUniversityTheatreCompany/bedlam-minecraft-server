@@ -19,6 +19,11 @@ for file in $FILES; do
   ln -s /data/${file} 2>/dev/null
 done
 
+# don't overwrite default if no replacement present
+if [ -f /data/server-icon.png ]; then
+  ln -s /data/server-icon.png
+fi
+
 ../scripts/run/mods.sh
 
 echo "eula=${EULA}" > eula.txt

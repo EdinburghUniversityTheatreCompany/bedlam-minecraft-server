@@ -20,11 +20,11 @@ services:
     restart: unless-stopped
   sftp-server:
     image: atmoz/sftp:alpine
-    command: "${SFTP_USER:-anonymous}:${SFTP_PASS:-}:::data"
+    command: "minecraft:${SFTP_PASS:-}:1966:966:data"
     volumes:
       - type: volume
         source: minecraft-data
-        target: "/home/${SFTP_USER}/data"
+        target: "/home/minecraft/data"
     ports:
       - "25522:22"
     restart: unless-stopped
