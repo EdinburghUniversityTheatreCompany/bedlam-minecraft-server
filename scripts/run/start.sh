@@ -24,7 +24,7 @@ if [ -f /data/server-icon.png ]; then
   ln -s /data/server-icon.png
 fi
 
-../scripts/run/mods.sh
+./scripts/run/mods.sh
 
 echo "eula=${EULA}" > eula.txt
 java "-Xms${MINMEM}" "-Xmx${MAXMEM}" -jar $FABRIC_SERVER_JAR

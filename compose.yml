@@ -3,28 +3,40 @@ name: bedlam-minecraft-server
 services:
   minecraft:
     image: bedlamtheatre/minecraft-server
+    build:
+      context: .
+      dockerfile: minecraft.Dockerfile
     volumes:
       - type: volume
         source: minecraft-data
         target: /data
     ports:
       - "25565:25565" # Main
-      - "25575:25575" # RCON
       - "19132:19132/udp" # Geyser
+    expose:
+      - "25575" # RCON
     environment:
       - "GITHUB_TOKEN=${GITHUB_TOKEN}"
       - "EULA=${EULA}"
     stdin_open: true
     tty: true
-    pull_policy: never
+    pull_policy: always
     restart: unless-stopped
-  sftp-server:
-    image: atmoz/sftp:alpine
-    command: "minecraft:${SFTP_PASS:-}:1966:966:data"
+  ssh-server:
+    image: bedlamtheatre/minecraft-server-ssh-server:latest
+    build:
+      context: .
+      dockerfile: ssh-server.Dockerfile
+    depends_on:
+      - minecraft
     volumes:
       - type: volume
         source: minecraft-data
-        target: "/home/minecraft/data"
+        target: "/home/minecraft"
+    environment:
+      - "RCON_PORT=${RCON_PORT:-25575}"
+      - "RCON_PASS=${RCON_PASS:-password}"
+      - "SSH_PASS=${SSH_PASS}"
     ports:
       - "25522:22"
     restart: unless-stopped
