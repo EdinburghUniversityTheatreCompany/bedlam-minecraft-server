@@ -3,9 +3,6 @@ name: bedlam-minecraft-server
 services:
   minecraft:
     image: bedlamtheatre/minecraft-server
-    build:
-      context: .
-      dockerfile: minecraft.Dockerfile
     volumes:
       - type: volume
         source: minecraft-data
@@ -20,7 +17,7 @@ services:
       - "EULA=${EULA}"
     stdin_open: true
     tty: true
-    pull_policy: always
+    pull_policy: never
     restart: unless-stopped
   ssh-server:
     image: bedlamtheatre/minecraft-server-ssh-server:latest
